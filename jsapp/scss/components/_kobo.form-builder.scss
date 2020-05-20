@@ -516,6 +516,55 @@ $t-form-builder-aside-open: 200ms;
   line-height: 28px;
 }
 
+.form-media__list-label {
+  margin-top: 32px;
+  color: black;
+  font-weight: 500;
+  font-size: 22px;
+  display: block;
+  margin-bottom: 32px;
+}
+
+.form-media__list-item {
+  font-size: 16px;
+  position: relative;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #8080804f;
+  margin-bottom: 12px;
+
+  i.k-icon-trash {
+    right: 10px;
+    position: absolute;
+    top:-5px;
+    color: #D08B8C;
+    font-size: 36px;
+    float: right;
+  }
+
+  i.k-icon-pdf {
+    position: absolute;
+    left: -10px;
+    top: -5px;
+    color: grey;
+    font-size: 36px;
+  }
+
+  a {
+    font-weight: 400;
+    padding: 5px;
+    padding-left: 30px;
+    font-size: 18;
+    display: inline-block;
+    width: 72%;
+    vertical-align: top;
+    height: auto;
+    position: relative;
+    min-height: 18px;
+    cursor: move;
+  }
+}
+
+
 // FORM BUILDER SMALL SCREEN ADJUSTMENTS
 
 @media screen and (max-width: 767px) {

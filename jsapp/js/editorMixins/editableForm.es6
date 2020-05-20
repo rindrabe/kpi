@@ -508,7 +508,9 @@ export default assign({
 
   onFileDrop(files) {
     if (files.length >= 1) {
-      this.setState({isUploadFilePending: true});
+      this.setState({
+        isUploadFilePending: true,
+      });
       // TODO: Handle form media upload
     }
   },
@@ -553,6 +555,52 @@ export default assign({
 
         <label className='form-media__label'>{t('You can also add files using a URL')}</label>
         <input className='form-media__url-input' placeholder={t('Paste URL here')}/><button onClick={this.uploadFromURL} className='mdl-button mdl-button--raised mdl-button--colored form-media__url-button'>{t('ADD')}</button>
+
+        {/* Temporary just for designing UI */}
+        <div className='form-media__file-list'>
+          <label className='form-media__list-label'>Files uploaded to this project</label>
+            <ul>
+                <li className='form-media__list-item'>
+                  <i className='k-icon-pdf'/>
+                  <a href='#'>This_is_the_name_of_a_file_01.jpg</a>
+                  <i className='k-icon-trash'/>
+                </li>
+                <li className='form-media__list-item'>
+                  <i className='k-icon-pdf'/>
+                  <a href='#'>This_is_the_name_of_a_file_02.jpg</a>
+                  <i className='k-icon-trash'/>
+                </li>
+                <li className='form-media__list-item'>
+                  <i className='k-icon-pdf'/>
+                  <a href='#'>This_is_the_name_of_a_file_03.jpg</a>
+                  <i className='k-icon-trash'/>
+                </li>
+                <li className='form-media__list-item'>
+                  <i className='k-icon-pdf'/>
+                  <a href='#'>This_is_the_name_of_a_file_04.jpg</a>
+                  <i className='k-icon-trash'/>
+                </li>
+            </ul>
+        </div>
+
+        {/* TODO: set filesToShow after successful upload and display uploadedFiles taken from asset
+
+          {this.state.filesToShow &&
+            <div className='form-media__file-list'>
+              <label className='form-media__labelist'>Files uploaded to this project</label>
+              {this.state.uploadedFiles.map((item, n) => {
+                return (
+                  <li className='form-media__list-item'>
+                    <i className={dyanmically set icon for file type}/>
+                    <a href='#'>This_is_the_name_of_a_file_01.jpg</a>
+                    <i className='k-icon-trash' onClick={delete this file}/>
+                  </li>
+                );
+              })}
+            </div>
+          }
+
+        */}
 
       </bem.FormModal__form>
     );
