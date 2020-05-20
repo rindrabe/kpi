@@ -5,6 +5,7 @@ import $ from 'jquery';
 import Select from 'react-select';
 import _ from 'underscore';
 import DocumentTitle from 'react-document-title';
+import Dropzone from 'react-dropzone';
 import Checkbox from '../components/checkbox';
 import SurveyScope from '../models/surveyScope';
 import {cascadeMixin} from './cascadeMixin';
@@ -399,6 +400,18 @@ export default assign({
     });
   },
 
+  toggleUpload() {
+    this.setState({
+      showUploadPopup: !this.state.showUploadPopup
+    });
+  },
+
+  hideUpload() {
+    this.setState({
+      showUploadPopup: false
+    });
+  },
+
   launchAppForSurveyContent(survey, _state = {}) {
     if (_state.name) {
       _state.savedName = _state.name;
@@ -493,7 +506,57 @@ export default assign({
     this.safeNavigateToRoute(backRoute);
   },
 
+  onFileDrop(files) {
+    if (files.length >= 1) {
+      this.setState({isUploadFilePending: true});
+      // TODO: Handle form media upload
+    }
+  },
+
+  uploadFromURL() {
+    var formMediaURL = $('input.form-media__url-input').val();
+    // TODO: Make and handle GET request to url
+  },
+
   // rendering methods
+
+  renderLoading(message = t('loading…')) {
+    return (
+      <bem.Loading>
+        <bem.Loading__inner>
+          <i />
+          {message}
+        </bem.Loading__inner>
+      </bem.Loading>
+    );
+  },
+
+  renderUpload() {
+    return (
+      <bem.FormModal__form className='project-settings project-settings--upload-file'>
+
+        {!this.state.isUploadFilePending &&
+          <Dropzone
+            onDrop={this.onFileDrop.bind(this)}
+            className='dropzone'
+          >
+            <i className='k-icon-upload' />
+            {t(' Drag and drop files here or click to browse')}
+          </Dropzone>
+        }
+
+        {this.state.isUploadFilePending &&
+          <div className='dropzone'>
+            {this.renderLoading(t('Uploading file…'))}
+          </div>
+        }
+
+        <label className='form-media__label'>{t('You can also add files using a URL')}</label>
+        <input className='form-media__url-input' placeholder={t('Paste URL here')}/><button onClick={this.uploadFromURL} className='mdl-button mdl-button--raised mdl-button--colored form-media__url-button'>{t('ADD')}</button>
+
+      </bem.FormModal__form>
+    );
+  },
 
   renderFormBuilderHeader () {
     let {
@@ -640,6 +703,15 @@ export default assign({
                 <i className='k-icon-cascading' />
               </bem.FormBuilderHeader__button>
             }
+
+            <bem.FormBuilderHeader__button
+              m={['upload']}
+              onClick={this.toggleUpload}
+              data-tip={t('Upload form media')}
+            >
+              <i className='k-icon-upload' />
+            </bem.FormBuilderHeader__button>
+
           </bem.FormBuilderHeader__cell>
 
           <bem.FormBuilderHeader__cell m='verticalRule'/>
@@ -856,6 +928,16 @@ export default assign({
               title={t('Import Cascading Select Questions')}
             >
               <ui.Modal.Body>{this.renderCascadePopup()}</ui.Modal.Body>
+            </ui.Modal>
+          }
+
+          {this.state.showUploadPopup &&
+            <ui.Modal
+              open
+              onClose={this.hideUpload}
+              title={t('Import and Manage Files')}
+            >
+              <ui.Modal.Body>{this.renderUpload()}</ui.Modal.Body>
             </ui.Modal>
           }
         </ui.Panel>
